@@ -1,12 +1,12 @@
 <template>
   <section class="testimonials">
-    <h2>Что говорят наши клиенты</h2>
+    <h2 class="testimonials-header h2">Что говорят наши клиенты</h2>
 
     <div class="slider-viewport">
       <div class="card-track" ref="cardTrackRef">
         <TestimonialsCard
-            v-for="(testimonial, index) in testimonials"
-            :key="testimonial.id"
+            v-for="(testimonial, index) in infiniteTestimonials"
+            :key="testimonial.id + '-' + index"
             :quote="testimonial.quote"
             :author="testimonial.author"
             :class="{
@@ -22,36 +22,39 @@
       <button
           class="nav-arrow prev"
           @click="prevSlide"
-          :disabled="currentSlideIndex <= MIN_SLIDE_INDEX"
-      ><svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10.5 0.5L0.5 10.4338L10.5 20.5" stroke="#F5F7FA" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      >
+        <svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.5 0.5L0.5 10.4338L10.5 20.5" stroke="#F5F7FA" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
       <button
           class="nav-arrow next"
           @click="nextSlide"
-          :disabled="currentSlideIndex >= maxSlideIndex"
-      ><svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0.499999 0.5L10.5 10.4338L0.499999 20.5" stroke="#F5F7FA" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      >
+        <svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.499999 0.5L10.5 10.4338L0.499999 20.5" stroke="#F5F7FA" stroke-linecap="round"
+                stroke-linejoin="round"/>
+        </svg>
       </button>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import {ref, computed, onMounted} from 'vue';
 import TestimonialsCard from "../cards/TestimonialsCard.vue";
 
-const CARD_WIDTH = 574;
+const CARD_WIDTH = 550;
+const CARD_WIDTH_MOBILE = 300;
 const GAP = 20;
+
 const SLIDE_OFFSET = CARD_WIDTH + GAP;
 const CARDS_PER_VIEW = 3;
-const MIN_SLIDE_INDEX = -(Math.floor(CARDS_PER_VIEW / 2));
+const CLONE_COUNT = CARDS_PER_VIEW
 
 
 const cardTrackRef = ref(null);
-const currentSlideIndex = ref(0);
+const currentSlideIndex = ref(CLONE_COUNT);
 const testimonials = ref([
   {
     id: 1,
@@ -80,8 +83,42 @@ const testimonials = ref([
   }
 ]);
 
-const totalSlides = computed(() => testimonials.value.length);
-const maxSlideIndex = computed(() => totalSlides.value - CARDS_PER_VIEW + Math.floor(CARDS_PER_VIEW / 2));
+const infiniteTestimonials = computed(() => {
+  const original = testimonials.value;
+
+  const prefix = original.slice(-CLONE_COUNT);
+
+  const suffix = original.slice(0, CLONE_COUNT);
+
+  return [...prefix, ...original, ...suffix];
+});
+
+const totalOriginalSlides = computed(() => testimonials.value.length);
+
+const checkLoop = () => {
+  if (currentSlideIndex.value === 0) {
+    currentSlideIndex.value = totalOriginalSlides.value;
+    moveTrack(currentSlideIndex.value, 0);
+    setTimeout(() => {
+      if (cardTrackRef.value) {
+        cardTrackRef.value.style.transition = 'transform 0.3s ease-in-out';
+      }
+    }, 50);
+    return true;
+  }
+
+  if (currentSlideIndex.value === totalOriginalSlides.value + CLONE_COUNT) {
+    currentSlideIndex.value = CLONE_COUNT;
+    moveTrack(currentSlideIndex.value, 0);
+    setTimeout(() => {
+      if (cardTrackRef.value) {
+        cardTrackRef.value.style.transition = 'transform 0.3s ease-in-out';
+      }
+    }, 50);
+    return true;
+  }
+  return false;
+};
 
 const centerIndex = computed(() => {
   return currentSlideIndex.value + Math.floor(CARDS_PER_VIEW / 2);
@@ -89,9 +126,10 @@ const centerIndex = computed(() => {
 const isCardHighlighted = (cardIndex) => {
   return cardIndex === centerIndex.value;
 };
-const moveTrack = (index) => {
+const moveTrack = (index, duration = 300) => {
   if (cardTrackRef.value) {
     const offset = index * SLIDE_OFFSET;
+    cardTrackRef.value.style.transition = `transform ${duration}ms ease-in-out`;
     cardTrackRef.value.style.transform = `translateX(-${offset}px)`;
   }
 };
@@ -104,18 +142,26 @@ const isRightCard = (cardIndex) => {
   return cardIndex === currentSlideIndex.value + CARDS_PER_VIEW - 1;
 };
 const nextSlide = () => {
-  if (currentSlideIndex.value < maxSlideIndex.value) {
-    currentSlideIndex.value++;
-    moveTrack(currentSlideIndex.value);
+  currentSlideIndex.value++;
+  moveTrack(currentSlideIndex.value);
+
+  if (currentSlideIndex.value > totalOriginalSlides.value) {
+    checkLoop();
   }
 };
 
 const prevSlide = () => {
-  if (currentSlideIndex.value > MIN_SLIDE_INDEX) {
-    currentSlideIndex.value--;
-    moveTrack(currentSlideIndex.value);
+  currentSlideIndex.value--;
+  moveTrack(currentSlideIndex.value);
+
+  if (currentSlideIndex.value < CLONE_COUNT) {
+    checkLoop();
   }
 };
+
+onMounted(() => {
+  moveTrack(CLONE_COUNT, 0);
+});
 </script>
 
 <style scoped>
@@ -126,8 +172,7 @@ const prevSlide = () => {
   text-align: left;
 }
 
-.testimonials h2 {
-  font-size: 32px;
+.testimonials-header {
   margin-bottom: 40px;
 }
 
@@ -137,78 +182,9 @@ const prevSlide = () => {
 
 .card-track {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   flex-wrap: nowrap;
-  transition: transform 0.3s ease-in-out;
-}
-
-/*.is-highlighted {
-  width: 574px;
-  height: 263px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-shrink: 0;
-  position: relative;
-  padding: 30px;
-  color: white;
-  overflow: hidden;
-
-  background: linear-gradient(
-      179.51deg,
-      rgba(249, 115, 22, 0.3) -38.71%,
-      rgba(0, 163, 224, 0.3) 164.44%
-  );
-} */
-
-.testimonial-card.is-highlighted {
-  height: 263px; /* УВЕЛИЧЕННАЯ ВЫСОТА */
-  background: linear-gradient(
-      179.51deg,
-      rgba(249, 115, 22, 0.4) -38.71%,
-      rgba(0, 163, 224, 0.4) 164.44%
-  ),
-  #2b2b2b;
-}
-
-.testimonial-card.is-highlighted::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-      179.51deg,
-      #F97316 -38.71%,
-      #00A3E0 164.44%
-  );
-  mask-image: linear-gradient(#fff, #fff),
-  linear-gradient(#fff, #fff);
-  mask-clip: content-box,
-  border-box;
-  mask-repeat: no-repeat;
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.testimonial-card.is-left-fade::after {
-  /* Создаем маску, которая плавно переходит от черного (непрозрачного) к прозрачному */
-  background: linear-gradient(
-      90deg, /* Слева направо */
-      rgba(0, 0, 0, 0.5) 0%, /* Непрозрачный темный на краю */
-      rgba(0, 0, 0, 0.0) 40% /* Полностью прозрачный ближе к центру */
-  );
-}
-
-.testimonial-card.is-right-fade::after {
-  /* Создаем маску, которая плавно переходит от прозрачного к черному */
-  background: linear-gradient(
-      270deg, /* Справа налево */
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0.0) 40%
-  );
+  align-items: center;
 }
 
 .slider-nav {
@@ -232,6 +208,31 @@ const prevSlide = () => {
 }
 
 .nav-arrow:hover {
-  border-color: #888;
+  border-color: #cf7b38;
+}
+
+
+.testimonial-card.is-highlighted {
+  height: 263px;
+  opacity: 1;
+  filter: none;
+  background: linear-gradient(
+      179.51deg,
+      rgba(249, 115, 22, 0.4) -38.71%,
+      rgba(0, 163, 224, 0.4) 164.44%
+  ),
+  #2b2b2b;
+}
+
+.testimonial-card.is-left-fade {
+  opacity: 0.5;
+  filter: blur(2px);
+  background: #2b2b2b;
+}
+
+.testimonial-card.is-right-fade {
+  opacity: 0.5;
+  filter: blur(2px);
+  background: #2b2b2b;
 }
 </style>
