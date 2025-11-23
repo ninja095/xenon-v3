@@ -9,10 +9,8 @@
 }
 
 :root {
-  /* Отступы */
   --layout-padding: 60px;
 
-  /* Градиенты */
   --gradient-xenon: linear-gradient(
     156.19deg,
     #f97316 22.76%,

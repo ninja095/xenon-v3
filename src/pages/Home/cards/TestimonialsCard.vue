@@ -14,8 +14,8 @@ defineProps({
 <template>
   <div class="testimonial-card">
     <div class="card-icon blue-icon"></div>
-    <p class="quote">Xenon внедрили облачное решение для нашей логистической платформы, что позволило сократить время обработки заказов на 25%. Их команда — это профессионалы, которые понимают бизнес!</p>
-    <p class="author">Максим Ковалев, генеральный директор, ООО «ЛогистикСистем»</p>
+    <p class="quote">{{ quote }}</p>
+    <p class="author">{{ author }}</p>
   </div>
 </template>
 
@@ -23,8 +23,10 @@ defineProps({
 
 
 .testimonial-card {
-  width: 573px;
-  height: 213px;
+  width: 100%;
+  max-width: 550px;
+  min-height: 213px;
+  height: auto;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -35,6 +37,8 @@ defineProps({
   color: white;
   overflow: hidden;
   background: var(--color-bg-primary);
+  opacity: 1;
+  filter: none;
 }
 
 .testimonial-card::before {
@@ -58,17 +62,6 @@ defineProps({
   pointer-events: none;
 }
 
-.testimonial-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 15px;
-  /* По умолчанию скрыт */
-  background: transparent;
-  pointer-events: none;
-  z-index: 5;
-}
-
 .card-icon {
   width: 20px;
   height: 20px;
@@ -82,17 +75,19 @@ defineProps({
   flex-shrink: 0;
   background-color: #00A3E0;
   border-radius: 10px;
-  margin-bottom: 20px;
 }
 
 .quote {
-  font-size: 16px;
-  line-height: 1.4;
-  margin: 0;
+  font-size: 15px;
+  line-height: var(--h3-line);
+  letter-spacing: var(--heading-letter-spacing);
+  margin-bottom: 10px;
 }
 
 .author {
-  font-size: 14px;
+  font-size: 12px;
+  line-height: var(--h3-line);
+  letter-spacing: var(--heading-letter-spacing);
   color: var(--color-text-secondary);
 }
 
