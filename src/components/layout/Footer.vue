@@ -1,16 +1,58 @@
 <template>
-  <footer class="footer">
-    <div class="footer__inner">
-      <div class="footer__left">
-        <div class="footer__logo">Xenon</div>
-        <p class="footer__copy">© 2025 Xenon. Все права защищены.</p>
+  <footer class="app-footer">
+    <div class="footer-wrapper">
+
+      <div class="footer-logo">
+        <img src="../../assets/images/img.png" alt="Xenon Logo" class="logo-image">
       </div>
-      <div class="footer__nav">
-        <RouterLink to="/" class="footer__link">Главная</RouterLink>
-        <RouterLink to="/projects" class="footer__link">Кейсы</RouterLink>
-        <RouterLink to="/services" class="footer__link">Услуги</RouterLink>
-        <RouterLink to="/about" class="footer__link">О компании</RouterLink>
-        <RouterLink to="/contacts" class="footer__link">Контакты</RouterLink>
+      <div class="footer-content__wrapper">
+        <nav class="footer-nav">
+            <ul
+                v-for="(column, columnIndex) in navColumns"
+                :key="columnIndex"
+                class="nav-column"
+            >
+              <li v-for="link in column" :key="link.path">
+                <RouterLink :to="link.path">{{ link.name }}</RouterLink>
+              </li>
+          </ul>
+        </nav>
+
+        <div class="footer-info">
+          <div class="social-links">
+            <a href="#" class="social-icon">
+              <svg width="31" height="25" viewBox="0 0 31 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M0.791122 11.3987C0.860472 11.3635 0.929818 11.3311 0.999168 11.3001C2.18095 10.7551 3.37829 10.2453 4.57423 9.73555C4.63934 9.73555 4.74832 9.66231 4.80776 9.63555C4.89976 9.59612 4.99176 9.55669 5.08517 9.51726C5.26209 9.44122 5.44042 9.36658 5.61733 9.29054C5.97257 9.13986 6.32639 8.98777 6.68163 8.83709C7.3907 8.53573 8.10119 8.23295 8.81026 7.93018C10.2298 7.32604 11.6494 6.72191 13.0689 6.11777C14.4885 5.51364 15.908 4.9095 17.3276 4.30537C18.7471 3.70124 20.1667 3.0971 21.5863 2.49297C23.0058 1.88883 24.4254 1.2847 25.8449 0.680564C26.1605 0.546781 26.503 0.344003 26.8399 0.284857C27.1244 0.235569 27.4018 0.136985 27.6862 0.0834717C28.2283 -0.0193298 28.827 -0.0615687 29.3464 0.162341C29.5261 0.239794 29.6903 0.349627 29.8304 0.486226C30.4885 1.13542 30.3966 2.20006 30.2579 3.1126C29.2869 9.4722 28.316 15.8304 27.3437 22.19C27.2107 23.0617 27.0309 24.0193 26.3374 24.5699C25.7515 25.0361 24.9179 25.0896 24.1961 24.891C23.4729 24.6925 22.8346 24.2742 22.209 23.8616C19.6133 22.152 17.0176 20.441 14.422 18.7314C13.8049 18.3244 13.1185 17.7949 13.1255 17.0584C13.1298 16.6148 13.3959 16.2191 13.6676 15.867C15.9222 12.9407 19.1788 10.9283 21.599 8.13579C21.9401 7.74289 22.209 7.03031 21.7405 6.80359C21.4617 6.66839 21.1404 6.85148 20.8871 7.02751C17.6871 9.23985 14.4871 11.4522 11.287 13.6631C10.2425 14.3841 9.14852 15.1277 7.89031 15.3051C6.76514 15.4643 5.63147 15.153 4.54168 14.8334C3.62881 14.5658 2.71736 14.2926 1.80873 14.0096C1.32611 13.8603 0.827919 13.6997 0.454278 13.3604C0.0806364 13.0224 -0.133075 12.4534 0.0919593 12.0028C0.232075 11.7198 0.506639 11.5409 0.793947 11.3959L0.791122 11.3987Z"
+                    fill="#00A3E0"/>
+              </svg>
+            </a>
+            <a href="#" class="social-icon">
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M17.1329 18.6939C11.9518 18.6927 7.73565 14.4766 7.7345 9.2966C7.7368 7.98374 8.80436 6.91504 10.1161 6.91504C10.2508 6.91504 10.3844 6.92655 10.5111 6.94958C10.7921 6.99564 11.0581 7.09123 11.3045 7.23403C11.3402 7.25476 11.3644 7.28932 11.3702 7.32962L11.9172 10.781C11.9241 10.8214 11.9115 10.8617 11.885 10.8916C11.5821 11.2267 11.1963 11.4674 10.7679 11.5883L10.5617 11.6471L10.6401 11.8475C11.3472 13.6452 12.7844 15.0835 14.5832 15.7906L14.7836 15.8689L14.8412 15.6617C14.9621 15.2321 15.2028 14.8463 15.5379 14.5446C15.5621 14.5227 15.5944 14.51 15.6278 14.51C15.6347 14.51 15.6427 14.51 15.6496 14.5123L19.0999 15.0594C19.1414 15.0663 19.1748 15.0893 19.1967 15.125C19.3383 15.3714 19.4339 15.6386 19.4811 15.9185C19.503 16.044 19.5145 16.1753 19.5145 16.3135C19.5145 17.6252 18.4458 18.6927 17.1329 18.695V18.6939Z"
+                    fill="#00A3E0"/>
+                <path
+                    d="M25.8431 11.4047C25.5683 8.30418 24.1481 5.42869 21.8437 3.30855C19.5257 1.17484 16.5167 0 13.371 0C6.46671 0 0.849187 5.61754 0.849187 12.5218C0.849187 14.8387 1.48806 17.0968 2.69795 19.0632L0 25.0369L8.64113 24.1165C10.1439 24.7316 11.7348 25.0437 13.371 25.0437C13.8018 25.0437 14.2428 25.0211 14.6849 24.9758C15.075 24.934 15.4685 24.8729 15.8564 24.7949C21.639 23.6269 25.8601 18.4944 25.8929 12.5886V12.5218C25.8929 12.1453 25.8759 11.7699 25.842 11.4058L25.8431 11.4047ZM8.97243 21.4943L4.19166 22.0031L5.61979 18.8404L5.33484 18.4571C5.31336 18.4288 5.293 18.4006 5.26926 18.3689C4.02996 16.6581 3.37526 14.6363 3.37526 12.5207C3.37526 7.00835 7.85979 2.52496 13.371 2.52496C18.5351 2.52496 22.9111 6.55379 23.3329 11.6964C23.3555 11.9723 23.3668 12.2493 23.3668 12.5218C23.3668 12.5999 23.3656 12.6768 23.3634 12.7582C23.2571 17.3693 20.0356 21.2851 15.5296 22.2824C15.1859 22.3593 14.8331 22.417 14.4814 22.4554C14.1162 22.4973 13.7419 22.5176 13.3699 22.5176C12.0458 22.5176 10.759 22.2609 9.54233 21.7543C9.40777 21.7001 9.27547 21.6424 9.15109 21.5825L8.97017 21.4954L8.97243 21.4943Z"
+                    fill="#00A3E0"/>
+              </svg>
+
+            </a>
+            <a href="#" class="social-icon">
+              <svg width="13" height="25" viewBox="0 0 13 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M8.71367 5.46735V8.88828H12.9991L12.3206 13.4975H8.71367V24.1157C7.99028 24.2151 7.25041 24.2667 6.49954 24.2667C5.63239 24.2667 4.78171 24.1979 3.9521 24.0659V13.4975H0V8.88828H3.9521V4.70322C3.9521 2.1061 6.08382 0 8.71459 0V0.00271276C8.72191 0.00271276 8.72924 0 8.73656 0H13V3.98521H10.2145C9.38579 3.98521 8.71459 4.64806 8.71459 5.46644L8.71367 5.46735Z"
+                    fill="#00A3E0"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="copyright-info">
+            <p><a href="#">Политика конфиденциальности</a></p>
+            <p><a href="#">Соглашение на обработку персональных данных</a></p>
+            <p>© 2025 Xenon. Все права защищены.</p>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
@@ -27,63 +69,145 @@ export default {
 };
 </script>
 
+<script setup>
+import {computed} from "vue";
+
+const navLinks = [
+  { name: 'Главная', path: '/' },
+  { name: 'Кейсы', path: '/cases' },
+  { name: 'О компании', path: '/about' },
+  { name: 'Услуги', path: '/services' },
+  { name: 'Блог', path: '/blog' },
+  { name: 'Контакты', path: '/contact' },
+];
+
+const navColumns = computed(() => [
+  navLinks.slice(0, 3),
+  navLinks.slice(3, 6)
+]);
+</script>
+
 <style scoped>
-.footer {
-  background-color: var(--color-header-footer-bg);
-  padding-block: 32px;
-}
+/* ----------------------------------- */
+/* ГЛАВНЫЙ КОНТЕЙНЕР ФУТЕРА */
+/* ----------------------------------- */
 
-.footer__inner {
-  padding-inline: var(--layout-padding);
+.app-footer {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 32px;
+  align-items: center;
+  background-color: var(--color-header-footer-bg);
+  width: 100%;
+
+  padding-block: 40px; /* вместо height */
+  min-height: 219px;  /* если в макете нельзя меньше */
 }
 
-.footer__logo {
-  font-family: var(--font-heading);
-  font-size: 32px;
-  background-image: var(--gradient-xenon);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.footer__copy {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  margin-top: 8px;
-}
-
-.footer__nav {
+.footer-wrapper {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px 24px;
+  justify-content: space-between;
+  align-items: flex-end; /* прижать всё вниз */
+  width: 100%;
+  padding-inline: var(--layout-padding);
 }
 
-.footer__link {
-  font-size: 14px;
-  color: var(--color-text-secondary);
+/* ----------------------------------- */
+/* 1. ЛОГОТИП (XENON) */
+/* ----------------------------------- */
+
+.footer-logo {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: -27px;
+}
+
+.logo-image {
+  max-width: 730px;
+  max-height: 265px;
+  width: auto;
+}
+
+/* ----------------------------------- */
+/* 2. НАВИГАЦИЯ */
+/* ----------------------------------- */
+
+.footer-content__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: auto;
+  gap: 100px;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 30px;
+  transform: translateY(-8px);
+}
+
+.nav-column {
+  list-style: none;
+  padding: 0;
+  margin-top: 50px;
+}
+
+.nav-column li {
+  margin-bottom: 12px;
+}
+
+.nav-column a {
   text-decoration: none;
+  font-size: 16px;
+  color: #F5F7FA;
+  transition: color 0.2s;
 }
 
-@media (max-width: 900px) {
-  .footer__inner {
-    padding-inline: 24px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+/* ----------------------------------- */
+/* 3. ИНФОРМАЦИЯ И СОЦСЕТИ */
+/* ----------------------------------- */
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+  text-align: right;
+  font-size: 15px;
+  margin-bottom: 0;
 }
 
-@media (max-width: 640px) {
-  .footer {
-    padding-block: 24px;
-  }
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+}
 
-  .footer__inner {
-    padding-inline: 16px;
-  }
+.social-icon {
+  text-decoration: none;
+  color: #00a3e0;
+  font-size: 20px;
+  line-height: 1;
+  transition: opacity 0.2s;
+}
+
+.copyright-info {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 10px;
+  color: #A1A8B0;
+  line-height: 1;
+}
+
+.copyright-info p {
+  margin: 0;
+  line-height: 1;
+  color: #A1A8B0;
+}
+
+.copyright-info a {
+  color: inherit;
+  text-decoration: none;
 }
 </style>
 

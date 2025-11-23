@@ -44,7 +44,7 @@
 import {ref, computed, onMounted, onUnmounted} from 'vue';
 import TestimonialsCard from "../cards/TestimonialsCard.vue";
 
-const CARD_WIDTH_DESKTOP = 550;
+const CARD_WIDTH_DESKTOP = 574;
 const CARD_WIDTH_MOBILE = 300;
 const GAP = 20;
 
@@ -106,30 +106,6 @@ const cardWidth = computed(() => {
 
 const SLIDE_OFFSET = computed(() => cardWidth.value + GAP);
 
-const checkLoop = () => {
-  if (currentSlideIndex.value === 0) {
-    currentSlideIndex.value = totalOriginalSlides.value;
-    moveTrack(currentSlideIndex.value, 0);
-    setTimeout(() => {
-      if (cardTrackRef.value) {
-        cardTrackRef.value.style.transition = 'transform 0.3s ease-in-out';
-      }
-    }, 50);
-    return true;
-  }
-
-  if (currentSlideIndex.value === totalOriginalSlides.value + CLONE_COUNT) {
-    currentSlideIndex.value = CLONE_COUNT;
-    moveTrack(currentSlideIndex.value, 0);
-    setTimeout(() => {
-      if (cardTrackRef.value) {
-        cardTrackRef.value.style.transition = 'transform 0.3s ease-in-out';
-      }
-    }, 50);
-    return true;
-  }
-  return false;
-};
 
 const centerIndex = computed(() => {
   return currentSlideIndex.value + Math.floor(CARDS_PER_VIEW / 2);
@@ -153,7 +129,6 @@ const moveTrack = (index, withTransition = true) => {
 const handleTransitionEnd = () => {
   if (!cardTrackRef.value) return;
 
-  // Проверяем, нужно ли сделать телепорт (без анимации)
   if (currentSlideIndex.value === 0) {
     currentSlideIndex.value = totalOriginalSlides.value;
     moveTrack(currentSlideIndex.value, false);
@@ -203,7 +178,7 @@ onUnmounted(() => {
 .slider-viewport {
   overflow: hidden;
   margin: 0 auto;
-  max-width: calc(550px * 3 + 30px * 2);
+  max-width: calc(574px * 3 + 30px * 2);
 }
 
 .card-track {

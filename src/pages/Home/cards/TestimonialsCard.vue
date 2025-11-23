@@ -24,7 +24,7 @@ defineProps({
 
 .testimonial-card {
   width: 100%;
-  max-width: 550px;
+  max-width: 574px;
   min-height: 213px;
   height: auto;
   border-radius: 15px;
