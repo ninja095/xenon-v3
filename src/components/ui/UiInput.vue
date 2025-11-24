@@ -55,15 +55,25 @@ export default {
 
 .ui-input__field {
   width: 100%;
-  padding: 12px 16px;
-  border-radius: var(--btn-radius);
-  border: 1px solid rgba(233, 236, 239, 0.2);
+  height: 67px;
+  border-radius: 15px;
+  border: 1px solid #00A3E0;
+  padding: 0 20px;
+  font-family: "Merriweather Sans", sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  color: #D9D9D9;
+  margin-bottom: 20px;
   background-color: transparent;
-  color: var(--color-text-secondary);
 }
 
 .ui-input__field::placeholder {
-  color: rgba(233, 236, 239, 0.6);
+  font-family: "Merriweather Sans", sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: var(--heading-letter-spacing);
+  color: #A1A8B0;
 }
 </style>
 

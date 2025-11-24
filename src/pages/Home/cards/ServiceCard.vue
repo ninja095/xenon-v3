@@ -59,7 +59,7 @@ export default {
 
 .service-card-icon {
   width: 50px;
-  height: 50px;
+  aspect-ratio: 1;
   background-color: #00A3E0;
   border-radius: 10px;
   flex-shrink: 0;

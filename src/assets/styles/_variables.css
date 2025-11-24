@@ -1,33 +1,34 @@
 :root {
-  --color-bg-primary: #1f252a;
-  --color-header-footer-bg: #2d353c;
-  --color-text-secondary: #e9ecef;
-  --color-heading-text: #f5f7fa;
-  --color-btn-primary: #f97316;
-  --btn-radius: 10px;
-  --card-radius: 15px;
+    --color-bg-primary: #1f252a;
+    --color-header-footer-bg: #2d353c;
+    --color-text-secondary: #e9ecef;
+    --color-heading-text: #f5f7fa;
+    --color-btn-primary: #f97316;
+
+    --gradient-xenon: linear-gradient(
+            156.19deg,
+            #f97316 22.76%,
+            #cf7b38 38.84%,
+            #2a9bbe 79.41%,
+            #00a3e0 98.78%
+    );
+
+    --gradient-border: linear-gradient(179.51deg, #f97316 -38.71%, #00a3e0 164.44%);
+
+    --gradient-card: linear-gradient(
+            126.78deg,
+            rgba(249, 115, 22, 0.3) 16.52%,
+            rgba(216, 121, 49, 0.3) 34.71%,
+            rgba(71, 149, 167, 0.3) 68.82%,
+            rgba(0, 163, 224, 0.3) 94.36%
+    );
 }
 
 :root {
-  --layout-padding: 60px;
-
-  --gradient-xenon: linear-gradient(
-    156.19deg,
-    #f97316 22.76%,
-    #cf7b38 38.84%,
-    #2a9bbe 79.41%,
-    #00a3e0 98.78%
-  );
-
-  --gradient-border: linear-gradient(179.51deg, #f97316 -38.71%, #00a3e0 164.44%);
-
-  --gradient-card: linear-gradient(
-    126.78deg,
-    rgba(249, 115, 22, 0.3) 16.52%,
-    rgba(216, 121, 49, 0.3) 34.71%,
-    rgba(71, 149, 167, 0.3) 68.82%,
-    rgba(0, 163, 224, 0.3) 94.36%
-  );
+    --layout-padding: 60px;
+    --section-margin-bottom: 150px;
+    --btn-radius: 10px;
+    --card-radius: 15px;
 
   /* Шрифты */
   --font-heading: 'Actay Wide', sans-serif;

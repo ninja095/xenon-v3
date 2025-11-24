@@ -1,19 +1,21 @@
 <template>
-  <div class="hero__header">
-    <h1 class="h1 hero__title">
-      Комплексные IT‑решения для роста прибыли
-    </h1>
-    <p class="hero__subtitle md-text">
-      От стратегии до внедрения — мы создаём технологии, которые увеличивают прибыль и повышают эффективность.
-    </p>
-  </div>
+  <section class="hero-section">
+    <div class="hero__header">
+      <h1 class="h1 hero__title">
+        Комплексные IT‑решения для роста прибыли
+      </h1>
+      <p class="hero__subtitle md-text">
+        От стратегии до внедрения — мы создаём технологии, которые увеличивают прибыль и повышают эффективность.
+      </p>
+    </div>
 
-  <div class="hero__footer">
-    <p class="hero__footnote sm-text">
-      Xenon помогает бизнесу достигать целей с помощью инновационных IT-решений, адаптированных под ваши задачи.
-    </p>
-    <UiButton>Получить консультацию</UiButton>
-  </div>
+    <div class="hero__footer">
+      <p class="hero__footnote sm-text">
+        Xenon помогает бизнесу достигать целей с помощью инновационных IT-решений, адаптированных под ваши задачи.
+      </p>
+      <UiButton>Получить консультацию</UiButton>
+    </div>
+  </section>
 </template>
 
 <script>

@@ -118,7 +118,7 @@ const navColumns = computed(() => [
 .footer-logo {
   display: flex;
   align-items: flex-end;
-  margin-bottom: -27px;
+  margin-bottom: -40px;
 }
 
 .logo-image {

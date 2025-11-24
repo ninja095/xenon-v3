@@ -165,10 +165,7 @@ onUnmounted(() => {
 
 <style scoped>
 .testimonials {
-  padding: 60px 0;
-  color: white;
-  font-family: sans-serif;
-  text-align: left;
+  margin-bottom: var(--section-margin-bottom);
 }
 
 .testimonials-header {

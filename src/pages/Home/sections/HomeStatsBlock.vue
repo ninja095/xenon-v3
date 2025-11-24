@@ -47,7 +47,7 @@ const stats = ref([
   gap: 40px;
   overflow-x: auto;
   overflow-y: hidden;
-  margin-bottom: 150px;
+  margin-bottom: var(--section-margin-bottom);
 }
 
 .stats-card {
