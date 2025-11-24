@@ -59,7 +59,7 @@ const services = ref([
 
 <style scoped>
 .services-section {
-  margin-bottom: 150px;
+  margin-bottom: var(--section-margin-bottom);
 }
 
 .service-content {

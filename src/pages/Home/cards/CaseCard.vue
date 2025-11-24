@@ -26,7 +26,7 @@ const props = defineProps({
 <style scoped>
 .case-card {
   width: 880px;
-  height: 300px;
+  height: 292px;
   display: flex;
   flex-direction: row;
   gap: 20px;

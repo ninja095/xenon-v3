@@ -41,20 +41,21 @@
 </template>
 
 <script setup>
-import {ref, computed, onMounted} from 'vue';
+import {ref, computed, onMounted, onUnmounted} from 'vue';
 import TestimonialsCard from "../cards/TestimonialsCard.vue";
 
-const CARD_WIDTH = 550;
+const CARD_WIDTH_DESKTOP = 574;
 const CARD_WIDTH_MOBILE = 300;
 const GAP = 20;
 
-const SLIDE_OFFSET = CARD_WIDTH + GAP;
 const CARDS_PER_VIEW = 3;
 const CLONE_COUNT = CARDS_PER_VIEW
 
 
 const cardTrackRef = ref(null);
 const currentSlideIndex = ref(CLONE_COUNT);
+const isAnimating = ref(false);
+
 const testimonials = ref([
   {
     id: 1,
@@ -93,83 +94,78 @@ const infiniteTestimonials = computed(() => {
   return [...prefix, ...original, ...suffix];
 });
 
+const getOffset = (index) => {
+  return index * SLIDE_OFFSET.value;
+};
+
 const totalOriginalSlides = computed(() => testimonials.value.length);
 
-const checkLoop = () => {
-  if (currentSlideIndex.value === 0) {
-    currentSlideIndex.value = totalOriginalSlides.value;
-    moveTrack(currentSlideIndex.value, 0);
-    setTimeout(() => {
-      if (cardTrackRef.value) {
-        cardTrackRef.value.style.transition = 'transform 0.3s ease-in-out';
-      }
-    }, 50);
-    return true;
-  }
+const cardWidth = computed(() => {
+  return window.innerWidth < 768 ? CARD_WIDTH_MOBILE : CARD_WIDTH_DESKTOP;
+});
 
-  if (currentSlideIndex.value === totalOriginalSlides.value + CLONE_COUNT) {
-    currentSlideIndex.value = CLONE_COUNT;
-    moveTrack(currentSlideIndex.value, 0);
-    setTimeout(() => {
-      if (cardTrackRef.value) {
-        cardTrackRef.value.style.transition = 'transform 0.3s ease-in-out';
-      }
-    }, 50);
-    return true;
-  }
-  return false;
-};
+const SLIDE_OFFSET = computed(() => cardWidth.value + GAP);
+
 
 const centerIndex = computed(() => {
   return currentSlideIndex.value + Math.floor(CARDS_PER_VIEW / 2);
 });
-const isCardHighlighted = (cardIndex) => {
-  return cardIndex === centerIndex.value;
-};
-const moveTrack = (index, duration = 300) => {
-  if (cardTrackRef.value) {
-    const offset = index * SLIDE_OFFSET;
-    cardTrackRef.value.style.transition = `transform ${duration}ms ease-in-out`;
-    cardTrackRef.value.style.transform = `translateX(-${offset}px)`;
+
+const isCardHighlighted = (cardIndex) => cardIndex === centerIndex.value;
+const isLeftCard = (cardIndex) => cardIndex === currentSlideIndex.value;
+const isRightCard = (cardIndex) => cardIndex === currentSlideIndex.value + CARDS_PER_VIEW - 1;
+
+const moveTrack = (index, withTransition = true) => {
+  if (!cardTrackRef.value) return;
+  const offset = getOffset(index);
+  if (withTransition) {
+    cardTrackRef.value.style.transition = 'transform 0.4s ease-in-out';
+  } else {
+    cardTrackRef.value.style.transition = 'none';
   }
+  cardTrackRef.value.style.transform = `translateX(-${offset}px)`;
 };
 
-const isLeftCard = (cardIndex) => {
-  return cardIndex === currentSlideIndex.value;
+const handleTransitionEnd = () => {
+  if (!cardTrackRef.value) return;
+
+  if (currentSlideIndex.value === 0) {
+    currentSlideIndex.value = totalOriginalSlides.value;
+    moveTrack(currentSlideIndex.value, false);
+  } else if (currentSlideIndex.value === totalOriginalSlides.value + CLONE_COUNT) {
+    currentSlideIndex.value = CLONE_COUNT;
+    moveTrack(currentSlideIndex.value, false);
+  }
+  isAnimating.value = false;
 };
 
-const isRightCard = (cardIndex) => {
-  return cardIndex === currentSlideIndex.value + CARDS_PER_VIEW - 1;
-};
 const nextSlide = () => {
+  if (isAnimating.value) return;
+  isAnimating.value = true;
   currentSlideIndex.value++;
-  moveTrack(currentSlideIndex.value);
-
-  if (currentSlideIndex.value > totalOriginalSlides.value) {
-    checkLoop();
-  }
+  moveTrack(currentSlideIndex.value, true);
 };
 
 const prevSlide = () => {
+  if (isAnimating.value) return;
+  isAnimating.value = true;
   currentSlideIndex.value--;
-  moveTrack(currentSlideIndex.value);
-
-  if (currentSlideIndex.value < CLONE_COUNT) {
-    checkLoop();
-  }
+  moveTrack(currentSlideIndex.value, true);
 };
 
 onMounted(() => {
-  moveTrack(CLONE_COUNT, 0);
+  moveTrack(CLONE_COUNT, false);
+  cardTrackRef.value?.addEventListener('transitionend', handleTransitionEnd);
+});
+
+onUnmounted(() => {
+  cardTrackRef.value?.removeEventListener('transitionend', handleTransitionEnd);
 });
 </script>
 
 <style scoped>
 .testimonials {
-  padding: 60px 0;
-  color: white;
-  font-family: sans-serif;
-  text-align: left;
+  margin-bottom: var(--section-margin-bottom);
 }
 
 .testimonials-header {
@@ -178,13 +174,34 @@ onMounted(() => {
 
 .slider-viewport {
   overflow: hidden;
+  margin: 0 auto;
+  max-width: calc(574px * 3 + 30px * 2);
 }
 
 .card-track {
   display: flex;
-  gap: 30px;
-  flex-wrap: nowrap;
+  gap: 20px;
   align-items: center;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 768px) {
+  .testimonial-card {
+    max-width: 300px;
+  }
+
+  .slider-viewport {
+    max-width: 340px;
+  }
+
+  .slider-nav {
+    gap: 20px;
+  }
+
+  .nav-arrow {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .slider-nav {
@@ -234,5 +251,14 @@ onMounted(() => {
   opacity: 0.5;
   filter: blur(2px);
   background: #2b2b2b;
+}
+
+.testimonial-card.is-highlighted :deep(.quote) {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.testimonial-card.is-highlighted :deep(.author) {
+  font-size: 15px;
 }
 </style>

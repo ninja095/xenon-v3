@@ -3,7 +3,7 @@
 
     <div class="service-card__title-wrapper">
       <div class="service-card-icon"></div>
-      <h3 class="h3">{{ title }}</h3>
+      <h3 class="h3 service-card__title">{{ title }}</h3>
     </div>
 
     <p class="service-card-description">{{ description }}</p>
@@ -59,7 +59,7 @@ export default {
 
 .service-card-icon {
   width: 50px;
-  height: 50px;
+  aspect-ratio: 1;
   background-color: #00A3E0;
   border-radius: 10px;
   flex-shrink: 0;
@@ -77,6 +77,10 @@ export default {
   line-height: 1;
   color: var(--color-text-secondary);
   margin-bottom: 1.5rem;
+}
+
+.service-card__title {
+  font-size: 25px;
 }
 
 .service-card-link {

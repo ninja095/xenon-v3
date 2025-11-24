@@ -59,8 +59,7 @@ const goToCases = () => {
 
 <style scoped>
 .cases-section {
-  padding: 6rem 0;
-  background: var(--color-bg-primary);
+  margin-bottom: var(--section-margin-bottom);
 }
 
 .case-title {
@@ -85,6 +84,6 @@ const goToCases = () => {
 .cases-actions {
   display: flex;
   justify-content: start;
-  margin-top: 3rem;
+  margin-top: 40px;
 }
 </style>
