@@ -9,9 +9,13 @@
       </div>
       <div class="contact-form__block">
         <div class="contact-form">
-          <UiInput v-model="formData.name" placeholder="Ваше имя"/>
-          <UiInput v-model="formData.email" type="email" placeholder="Email"/>
-          <UiInput v-model="formData.phone" type="tel" placeholder="Телефон"/>
+          <UiInput
+              v-for="field in props.fields"
+              :key="field.name"
+              v-model="formData[field.name]"
+              :type="field.type"
+              :placeholder="field.placeholder"
+          />
           <UiButton class="button">
             Отправить заявку
           </UiButton>
@@ -29,13 +33,21 @@ import { reactive } from 'vue'
 import UiButton from "../../../components/ui/UiButton.vue";
 import UiInput from "../../../components/ui/UiInput.vue";
 
-const formData = reactive({
-  name: '',
-  email: '',
-  phone: ''
-})
 
+const props = defineProps({
+  fields: {
+    type: Array,
+    default: () => ([
+      { name: 'name', placeholder: 'Ваше имя', type: 'text' },
+      { name: 'email', placeholder: 'Email', type: 'email' },
+      { name: 'phone', placeholder: 'Телефон', type: 'tel' }
+    ])
+  }
+});
 
+const formData = reactive(Object.fromEntries(
+    props.fields.map(f => [f.name, ''])
+));
 </script>
 
 <style scoped>
@@ -47,7 +59,7 @@ const formData = reactive({
 }
 .contact-form__block {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 40px;
   margin-top: 40px;
 }
@@ -56,7 +68,7 @@ const formData = reactive({
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 880px;
+  flex-grow: 1;
 }
 
 .button {
@@ -64,9 +76,8 @@ const formData = reactive({
 }
 
 .contact-image {
-  aspect-ratio: 880 / 335;
-  width: 100%;
-  max-width: 880px;
+  height: 100%;
+  flex-grow: 1; /* Позволяем изображению занимать оставшееся место */
   overflow: hidden;
   border-radius: var(--card-radius);
 }

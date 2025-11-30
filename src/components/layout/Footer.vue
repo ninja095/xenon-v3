@@ -3,7 +3,7 @@
     <div class="footer-wrapper">
 
       <div class="footer-logo">
-        <img src="../../assets/images/img.png" alt="Xenon Logo" class="logo-image">
+        <img src="../../assets/images/xenon.png" alt="Xenon Logo" class="logo-image">
       </div>
       <div class="footer-content__wrapper">
         <nav class="footer-nav">
