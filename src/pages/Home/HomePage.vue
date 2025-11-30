@@ -1,27 +1,37 @@
 <template>
   <div class="page">
-    <HeroSection/>
+    <HeroSection
+        :title="heroData.title"
+        :subtitle="heroData.subtitle"
+        :footnote="heroData.footnote"
+        :buttonText="heroData.buttonText"
+        :buttonLink="heroData.buttonLink"
+    />
     <HomeStatsBlock/>
     <ServicesSection/>
     <CasesSection/>
     <TestimonialsSection/>
-    <ContactSection/>
+    <ContactSection />
   </div>
 </template>
 
-<script>
+<script setup>
 
 import HomeStatsBlock from "./sections/HomeStatsBlock.vue";
 import ServicesSection from "./sections/ServicesSection.vue";
 import CasesSection from "./sections/CasesSection.vue";
 import TestimonialsSection from "./sections/TestimonialsSection.vue";
 import ContactSection from "./sections/ContactSection.vue";
-import HeroSection from "./sections/HeroSection.vue";
+import HeroSection from "../../components/ui/HeroSection.vue";
+import {ref} from "vue";
 
-export default {
-  name: 'HomePage',
-  components: {HeroSection, ContactSection, TestimonialsSection, CasesSection, ServicesSection, HomeStatsBlock }
-};
+const heroData = ref({
+    title: 'Xenon — ваш партнёр в IT‑трансформации',
+    subtitle: 'Мы создаём технологии, которые увеличивают прибыль, оптимизируют процессы и делают ваш бизнес сильнее.',
+    footnote: 'Начните своё путешествие в мир инноваций с Xenon уже сегодня!',
+    buttonText: 'Получить консультацию',
+    buttonLink: '/contact'
+  });
 </script>
 
 <style scoped>

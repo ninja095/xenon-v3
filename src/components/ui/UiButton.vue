@@ -1,13 +1,21 @@
 <template>
-  <button class="ui-button" type="button">
+  <component
+      :is="to ? 'RouterLink' : 'button'"
+      class="ui-button"
+      :to="to"
+      type="button"
+  >
     <slot />
-  </button>
+  </component>
 </template>
 
-<script>
-export default {
-  name: 'UiButton'
-};
+<script setup lang="ts">
+defineProps({
+  to: {
+    type: String,
+    default: null
+  }
+});
 </script>
 
 <style scoped>
@@ -22,6 +30,7 @@ export default {
   font-size: 20px;
   line-height: 1;
   letter-spacing: var(--heading-letter-spacing);
+  text-decoration: none;
 }
 
 .ui-button:hover {

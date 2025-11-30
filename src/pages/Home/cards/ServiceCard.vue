@@ -46,7 +46,6 @@ export default {
       #F97316 -38.71%,
       #00A3E0 164.44%
   );
-  /* Магия — вырезаем середину */
   mask-image: linear-gradient(#fff, #fff),
   linear-gradient(#fff, #fff);
   mask-clip: content-box, border-box;

@@ -10,39 +10,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'UiInput',
-  props: {
-    modelValue: {
-      type: String,
-      default: ''
-    },
-    label: {
-      type: String,
-      default: ''
-    },
-    type: {
-      type: String,
-      default: 'text'
-    },
-    placeholder: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: ['update:modelValue'],
-  computed: {
-    innerValue: {
-      get() {
-        return this.modelValue;
-      },
-      set(val) {
-        this.$emit('update:modelValue', val);
-      }
-    }
-  }
-};
+<script setup>
+import {computed} from "vue";
+
+const props = defineProps({
+  modelValue: String,
+  label: String,
+  type: { type: String, default: 'text' },
+  placeholder: String
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const innerValue = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val)
+});
 </script>
 
 <style scoped>

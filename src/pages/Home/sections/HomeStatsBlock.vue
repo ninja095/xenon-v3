@@ -87,6 +87,7 @@ const stats = ref([
   mask-composite: exclude;
   pointer-events: none;
 }
+
 .stats-card__subtitle {
   margin-top: 13px;
   color: var(--color-text-secondary);
