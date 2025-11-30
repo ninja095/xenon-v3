@@ -11,7 +11,7 @@
     <ServicesSection/>
     <CasesSection/>
     <TestimonialsSection/>
-    <ContactSection/>
+    <ContactSection />
   </div>
 </template>
 
